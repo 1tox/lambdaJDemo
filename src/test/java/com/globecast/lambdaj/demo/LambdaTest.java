@@ -2,6 +2,7 @@ package com.globecast.lambdaj.demo;
 
 import static ch.lambdaj.Lambda.by;
 import static ch.lambdaj.Lambda.group;
+import static ch.lambdaj.Lambda.index;
 import static ch.lambdaj.Lambda.on;
 import static ch.lambdaj.Lambda.sort;
 import static org.junit.Assert.assertEquals;
@@ -18,8 +19,7 @@ import org.junit.Test;
 import ch.lambdaj.group.Group;
 
 public class LambdaTest {
-	private static List<Employee>	employees	= Collections.unmodifiableList(
-													Arrays.asList(new Employee(1, "Christophe", "Consultant", 45), null,
+	private static List<Employee>	employees	= Collections.unmodifiableList(Arrays.asList(new Employee(1, "Christophe", "Consultant", 45), null,
 														new Employee(2, "Alex", "Consultant", 25), new Employee(3, "Guillaume", "Commercial", 26)));
 
 	@Test
@@ -68,7 +68,7 @@ public class LambdaTest {
 	}
 
 	/**
-	 * Ventiler les employ&eacute;es par fonction, i.e. group by dans le langage SQL
+	 * Ventiler les employ&eacute;s par fonction, i.e. group by dans le langage SQL
 	 */
 	@Test
 	public void testGroup() {
@@ -94,5 +94,19 @@ public class LambdaTest {
 
 	private Group<Employee> getEmployeesGroupByFunctionLambdaJ() {
 		return group(employees, by(on(Employee.class).getFunction()));
+	}
+
+	private Map<Integer, Employee> getIndexedEmployees() {
+		Map<Integer, Employee> employeesIndex = new HashMap<Integer, Employee>();
+		for (Employee employee : employees) {
+			if (employee != null) {
+				employeesIndex.get(employee.getId());
+			}
+		}
+		return employeesIndex;
+	}
+
+	private Map<Integer, Employee> getIndexedEmployeesLambdaJ() {
+		return index(employees, on(Employee.class).getId());
 	}
 }
